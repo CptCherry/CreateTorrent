@@ -1,0 +1,30 @@
+# Fichiers de configuration personnels
+.env
+book.json
+doc
+
+# Dossiers de sortie
+output/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude
+.claude/

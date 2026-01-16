@@ -1,0 +1,16 @@
+{
+  "titre": "Nom du manga",
+  "auteur": "Auteur",
+  "date": "2024",
+  "langue": "FRENCH",
+  "format": "CBZ",
+  "team": "NOTAG",
+  "team_rules": [
+    [1, 10, "TeamA"],
+    [11, 20, "TeamB"]
+  ],
+  "tome_dates": {
+    "1": "2021",
+    "2": "2022"
+  }
+}
