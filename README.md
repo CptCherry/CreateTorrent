@@ -40,9 +40,9 @@ CREATED_BY=MonPseudo
 # Type ID pour l'upload
 # Ebook => 19
 # Ebook/Audio => 20
-# Ebook/Comics=> 19
-# Ebook/Mangas=> 19
-# Ebook/Presse=> 19
+# Ebook/Comics=> 21
+# Ebook/Mangas=> 22
+# Ebook/Presse=> 23
 TYPE_ID=19
 
 # API imgbb pour upload des covers (optionnel)
@@ -277,6 +277,7 @@ L'image est uploadée sur imgbb et l'URL est ajoutée en haut de la description 
 ```
 
 **Dépendances pour l'extraction automatique :**
+
 - CBZ : aucune (zipfile natif Python)
 - CBR : `rarfile` (`pip install rarfile`)
 - PDF : `pymupdf` (`pip install pymupdf`)
