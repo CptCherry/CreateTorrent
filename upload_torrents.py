@@ -38,6 +38,7 @@ DEFAULT_SOURCE = os.getenv("SOURCE_DIR")
 UPLOAD_DELAY = int(os.getenv("UPLOAD_DELAY"))
 TYPE_ID = int(os.getenv("TYPE_ID"))
 IMGBB_API_KEY = os.getenv("IMGBB_API_KEY", "")
+OUTPUT_DIR = os.getenv("OUTPUT_DIR", "")
 
 # Configuration pour Ebooks/Manga
 # Voir: https://hdinnovations.github.io/UNIT3D/torrent_api.html
@@ -388,19 +389,19 @@ def upload_all_torrents(torrent_dir, skip_patterns=None):
         # Le nom de la release = nom du fichier sans extension
         release_name = torrent_file.stem
 
+        # Trouver le fichier source correspondant
+        book_file = find_book_for_torrent(torrent_file.name, source_dir)
+
         # Déterminer la cover pour ce tome
         cover_url = manual_cover_url
         extracted_cover = None
 
         if not cover_url and IMGBB_API_KEY:
-            # Pas de cover manuelle, extraire depuis le fichier correspondant
-            book_file = find_book_for_torrent(torrent_file.name, source_dir)
             if book_file:
                 logger.info(f"  Extraction cover depuis: {book_file.name}")
                 extracted_cover = extract_cover_from_book(book_file)
                 if extracted_cover:
                     cover_url = upload_image_to_imgbb(extracted_cover)
-                    # Nettoyer le fichier temporaire
                     try:
                         extracted_cover.unlink()
                         if "tmp" in str(extracted_cover.parent).lower():
@@ -414,6 +415,16 @@ def upload_all_torrents(torrent_dir, skip_patterns=None):
 
         if upload_torrent(torrent_file, release_name, description, cover_url):
             success_count += 1
+            # Déplacer le fichier source après upload réussi
+            if OUTPUT_DIR and book_file and book_file.exists():
+                output_path = Path(OUTPUT_DIR)
+                output_path.mkdir(parents=True, exist_ok=True)
+                dest = output_path / book_file.name
+                try:
+                    shutil.move(str(book_file), str(dest))
+                    logger.info(f"  Fichier déplacé: {dest}")
+                except Exception as e:
+                    logger.error(f"  Erreur déplacement: {e}")
         else:
             fail_count += 1
 
