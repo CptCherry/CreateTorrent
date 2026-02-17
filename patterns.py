@@ -5,6 +5,7 @@ Patterns regex partagés pour l'extraction des numéros de tome/chapitre.
 # Patterns pour extraire le numéro de tome d'un nom de fichier
 TOME_EXTRACT_PATTERNS = [
     r"T(\d+)",
+    r"C(\d+)",
     r"Chapitre\s*(\d+)",
     r"Tome\s*(\d+)",
     r"Vol\.?\s*(\d+)",
@@ -25,6 +26,7 @@ def get_tome_match_patterns(tome_num):
     """
     return [
         rf"T0*{tome_num}(?!\d)",
+        rf"C0*{tome_num}(?!\d)",
         rf"Chapitre\s*0*{tome_num}(?!\d)",
         rf"Tome\s*0*{tome_num}(?!\d)",
         rf"Vol\.?\s*0*{tome_num}(?!\d)",

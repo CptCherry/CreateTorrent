@@ -18,7 +18,7 @@ import shutil
 import requests
 from pathlib import Path
 from dotenv import load_dotenv
-from patterns import get_tome_match_patterns
+from patterns import get_tome_match_patterns, TOME_EXTRACT_PATTERNS
 
 # Charger le fichier .env
 load_dotenv(Path(__file__).parent / ".env")
@@ -177,8 +177,12 @@ def find_book_for_torrent(torrent_name, source_dir):
 
     source_dir = Path(source_dir)
 
-    # Extraire le numéro de tome du nom du torrent (T01, T02, etc.)
-    match = re.search(r"\.T(\d+)\.", torrent_name)
+    # Extraire le numéro de tome/chapitre du nom du torrent
+    match = None
+    for pattern in TOME_EXTRACT_PATTERNS:
+        match = re.search(pattern, torrent_name, re.IGNORECASE)
+        if match:
+            break
     if not match:
         return None
 
