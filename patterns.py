@@ -3,14 +3,15 @@ Patterns regex partagés pour l'extraction des numéros de tome/chapitre.
 """
 
 # Patterns pour extraire le numéro de tome d'un nom de fichier
+# Chaque entrée : (pattern, prefix) où prefix est "T" pour tome ou "C" pour chapitre
 TOME_EXTRACT_PATTERNS = [
-    r"T(\d+)",
-    r"C(\d+)",
-    r"Chapitre\s*(\d+)",
-    r"Tome\s*(\d+)",
-    r"Vol\.?\s*(\d+)",
-    r"Volume\.?\s*(\d+)",
-    r"#(\d+)",
+    (r"T(\d+)", "T"),
+    (r"C(\d+)", "C"),
+    (r"Chapitre\s*(\d+)", "C"),
+    (r"Tome\s*(\d+)", "T"),
+    (r"Vol\.?\s*(\d+)", "T"),
+    (r"Volume\.?\s*(\d+)", "T"),
+    (r"#(\d+)", "T"),
 ]
 
 

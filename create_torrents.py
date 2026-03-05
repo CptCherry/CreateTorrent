@@ -49,12 +49,16 @@ def get_date_for_tome(tome_num, tome_dates, default_date):
 
 
 def extract_tome_number(filename):
-    """Extrait le numéro de tome du nom de fichier."""
-    for pattern in TOME_EXTRACT_PATTERNS:
+    """Extrait le numéro de tome/chapitre du nom de fichier.
+
+    Retourne (numero, prefix) où prefix est "T" pour tome ou "C" pour chapitre,
+    ou (None, None) si aucun match.
+    """
+    for pattern, prefix in TOME_EXTRACT_PATTERNS:
         match = re.search(pattern, filename, re.IGNORECASE)
         if match:
-            return int(match.group(1))
-    return None
+            return int(match.group(1)), prefix
+    return None, None
 
 
 def create_torrent(file_path, output_path, tracker_url=""):
@@ -224,15 +228,15 @@ def process_books(source_dir, output_dir=None, tracker_url="", json_path=None):
     for i, book_file in enumerate(sorted(book_files), 1):
         logger.info(f"[{i}/{len(book_files)}] Traitement de: {book_file.name}")
 
-        # Extraire le numéro de tome
-        tome_num = extract_tome_number(book_file.name)
+        # Extraire le numéro de tome/chapitre
+        tome_num, tome_prefix = extract_tome_number(book_file.name)
 
         # Déterminer la team et la date
         default_date = metadata.get("date", "")
         if tome_num:
             team = get_team_for_tome(tome_num, team_rules, default_team)
             date = get_date_for_tome(tome_num, tome_dates, default_date)
-            titre = f"{metadata['titre']} T{tome_num:02d}"
+            titre = f"{metadata['titre']} {tome_prefix}{tome_num:02d}"
         else:
             team = default_team
             date = default_date

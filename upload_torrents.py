@@ -39,6 +39,7 @@ UPLOAD_DELAY = int(os.getenv("UPLOAD_DELAY"))
 TYPE_ID = int(os.getenv("TYPE_ID"))
 IMGBB_API_KEY = os.getenv("IMGBB_API_KEY", "")
 OUTPUT_DIR = os.getenv("OUTPUT_DIR", "")
+PERSONAL_RELEASE = int(os.getenv("PERSONAL_RELEASE", "0"))
 
 # Configuration pour Ebooks/Manga
 # Voir: https://hdinnovations.github.io/UNIT3D/torrent_api.html
@@ -56,7 +57,7 @@ DEFAULT_PARAMS = {
     "mal": 0,
     "igdb": 0,
     "anonymous": 0,
-    "personal_release": 0,
+    "personal_release": PERSONAL_RELEASE,
 }
 
 
@@ -180,7 +181,7 @@ def find_book_for_torrent(torrent_name, source_dir):
 
     # Extraire le numéro de tome/chapitre du nom du torrent
     match = None
-    for pattern in TOME_EXTRACT_PATTERNS:
+    for pattern, _ in TOME_EXTRACT_PATTERNS:
         match = re.search(pattern, torrent_name, re.IGNORECASE)
         if match:
             break
