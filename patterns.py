@@ -8,6 +8,7 @@ TOME_EXTRACT_PATTERNS = [
     (r"T(\d+)", "T"),
     (r"C(\d+)", "C"),
     (r"Chapitre\s*(\d+)", "C"),
+    (r"Chap.\s*(\d+)", "C"),
     (r"Tome\s*(\d+)", "T"),
     (r"Vol\.?\s*(\d+)", "T"),
     (r"Volume\.?\s*(\d+)", "T"),
